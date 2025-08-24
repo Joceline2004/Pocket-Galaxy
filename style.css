@@ -1,0 +1,150 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Montserrat&display=swap');
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding-top: 70px;
+    /* espacio para navbar fijo */
+    background-color: #0a0f1f;
+    color: #c5c6c7;
+    text-align: center;
+}
+
+header {
+    background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
+    padding: 20px;
+    box-shadow: 0 0 20px #00fff7;
+}
+
+h1,
+h2 {
+    font-family: 'Orbitron', sans-serif;
+    color: #00fff7;
+}
+
+@keyframes glowTitle {
+    0%,
+    100% {
+        text-shadow: 0 0 5px #00fff7, 0 0 10px #00fff7;
+    }
+    50% {
+        text-shadow: 0 0 20px #00fff7, 0 0 30px #00fff7;
+    }
+}
+
+#apod-container,
+#asteroids,
+#gallery,
+#missions {
+    background: rgba(15, 25, 35, 0.9);
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 15px;
+    max-width: 1000px;
+    box-shadow: 0 0 20px #1f4068;
+}
+
+#image {
+    max-width: 90%;
+    border-radius: 12px;
+    margin: 20px 0;
+    box-shadow: 0 0 20px #00fff7;
+    transition: transform 0.3s ease;
+}
+
+#image:hover {
+    transform: scale(1.05);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th,
+td {
+    padding: 12px;
+    border: 1px solid #00fff7;
+    color: #eaeaea;
+}
+
+tr:hover {
+    background: rgba(0, 255, 247, 0.1);
+}
+
+button {
+    background: transparent;
+    color: #00fff7;
+    border: 2px solid #00fff7;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    transition: 0.3s;
+    box-shadow: 0 0 10px #00fff7;
+    animation: glowButton 2s infinite;
+}
+
+@keyframes glowButton {
+    0%,
+    100% {
+        box-shadow: 0 0 10px #00fff7;
+    }
+    50% {
+        box-shadow: 0 0 25px #00fff7;
+    }
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(15, 25, 35, 0.95);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    box-shadow: 0 0 20px #00fff7;
+    z-index: 1000;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar ul li a {
+    color: #00fff7;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 8px 15px;
+    border-radius: 10px;
+    transition: 0.3s;
+    text-shadow: 0 0 8px #00fff7;
+    animation: glowButton 2.5s infinite;
+}
+
+.navbar ul li a:hover {
+    animation: none;
+    box-shadow: 0 0 30px #00fff7, 0 0 50px #00fff7 inset;
+    color: #0a0f1f;
+    background: #00fff7;
+}
+
+footer {
+    margin-top: 30px;
+    padding: 15px;
+    font-size: 14px;
+    background: #111;
+    color: #777;
+}
+
+.gallery-grid,
+.missions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorador Espacial Futurista</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Montserrat&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Navbar Futurista -->
+    <header>
+        <nav class="navbar">
+            <ul>
+                <li><a href="#apod-container">📷 APOD</a></li>
+                <li><a href="#asteroids">☄️ Asteroides</a></li>
+                <li><a href="#gallery">🛰️ Galería</a></li>
+                <li><a href="#missions">🚀 Misiones</a></li>
+            </ul>
+        </nav>
+        <h1>Pocket Galaxy</h1>
+    </header>
+
+    <main>
+        <!-- Sección 1: Foto del día (APOD) -->
+        <section id="apod-container">
+            <h2>📷 Foto del Día - NASA</h2>
+            <img id="image" alt="Foto del día de la NASA">
+            <p id="title"></p>
+            <p id="description"></p>
+            <p><b>Fecha:</b> <span id="date"></span></p>
+        </section>
+
+        <!-- Sección 2: Explorador de Asteroides -->
+        <section id="asteroids">
+            <h2>☄️ Asteroides Cercanos a la Tierra</h2>
+            <table border="1" id="asteroid-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Fecha</th>
+                        <th>Diámetro (m)</th>
+                        <th>Velocidad (km/h)</th>
+                        <th>Distancia (km)</th>
+                    </tr>
+                </thead>
+                <tbody id="asteroid-body">
+                    <!-- Datos dinámicos -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Sección 3: Galería Espacial (Marte / Rover) -->
+        <section id="gallery">
+            <h2>🛰️ Galería Espacial - Marte</h2>
+            <div class="gallery-grid" id="gallery-grid">
+                <!-- Tarjetas de fotos dinámicas -->
+            </div>
+        </section>
+
+        <!-- Sección 4: Simulación de Misiones -->
+        <section id="missions">
+            <h2>🚀 Misiones Espaciales</h2>
+            <div class="missions-grid" id="missions-grid">
+                <!-- Tarjetas de misiones dinámicas -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Datos obtenidos de la <a href="https://api.nasa.gov/" target="_blank">NASA Open API</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
