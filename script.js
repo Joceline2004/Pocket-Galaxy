@@ -1,47 +1,17 @@
 const apiKey = "LOtNye1wqJIdZtnAqZX0fciNULCzO4xSbUFDV6Zj";
 const url = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}`;
 
-const LIBRE_TRANSLATE_URL = "https://translate.argosopentech.com/translate"; // Nuevo servidor
-
-async function traducirTexto(texto, idiomaDestino = "es") {
-    try {
-        const response = await fetch(LIBRE_TRANSLATE_URL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                q: texto,
-                source: "en",
-                target: idiomaDestino,
-                format: "text"
-            })
-        });
-
-        const data = await response.json();
-        return data.translatedText;
-    } catch (error) {
-        console.error("Error al traducir:", error);
-        return texto;
-    }
-}
-
-
 async function getAPOD() {
     try {
         const response = await fetch(url);
         const data = await response.json();
 
-        const tituloTraducido = await traducirTexto(data.title);
-        const descripcionTraducida = await traducirTexto(data.explanation);
-
-        document.getElementById("title").textContent = tituloTraducido;
-        document.getElementById("description").textContent = descripcionTraducida;
+        document.getElementById("title").textContent = data.title;
+        document.getElementById("description").textContent = data.explanation;
         document.getElementById("date").textContent = data.date;
 
         if (data.media_type === "image") {
             document.getElementById("image").src = data.url;
-            document.getElementById("image").style.display = "block";
         } else {
             document.getElementById("image").style.display = "none";
             document.getElementById("description").innerHTML =
@@ -52,79 +22,138 @@ async function getAPOD() {
     }
 }
 
-
-
-// ========================
+// ------------------
 // 🚀 Explorador de Asteroides
-// ========================
-const startDate = "2025-08-20"; // Cambia la fecha si quieres
-const endDate = "2025-08-24";
-const asteroidURL = `https://api.nasa.gov/neo/rest/v1/feed?start_date=${startDate}&end_date=${endDate}&api_key=${apiKey}`;
-let allAsteroids = []; // Guardará todos los asteroides descargados
-let currentIndex = 0; // Controla cuántos se han mostrado
-const itemsPerPage = 5;
-
-async function getAsteroids() {
-    try {
-        const response = await fetch(asteroidURL);
-        const data = await response.json();
-
-        const asteroidData = data.near_earth_objects;
-
-        // Guardar todo en un arreglo plano
-        allAsteroids = [];
-        for (let date in asteroidData) {
-            asteroidData[date].forEach(asteroid => {
-                allAsteroids.push({
-                    name: asteroid.name,
-                    date: date,
-                    diaMin: asteroid.estimated_diameter.meters.estimated_diameter_min.toFixed(0),
-                    diaMax: asteroid.estimated_diameter.meters.estimated_diameter_max.toFixed(0),
-                    vel: parseFloat(asteroid.close_approach_data[0].relative_velocity.kilometers_per_hour).toFixed(0),
-                    dist: parseFloat(asteroid.close_approach_data[0].miss_distance.kilometers).toFixed(0)
-                });
-            });
-        }
-
-        // Limpiar tabla antes de cargar los primeros
-        document.getElementById("asteroid-body").innerHTML = "";
-        currentIndex = 0;
-        renderAsteroids(); // Mostrar primeros 5
-    } catch (error) {
-        console.error("Error al obtener asteroides:", error);
-    }
+// ------------------
+async function getAsteroids(startDate, endDate) {
+    const asteroidURL = `https://api.nasa.gov/neo/rest/v1/feed?start_date=${startDate}&end_date=${endDate}&api_key=${apiKey}`;
+    const response = await fetch(asteroidURL);
+    const data = await response.json();
+    return data.near_earth_objects;
 }
 
-// Renderiza de 5 en 5
-function renderAsteroids() {
+// Renderizar asteroides en tabla
+async function updateAsteroids() {
+    const startDate = document.getElementById("startDate").value || "2025-08-20";
+    const endDate = document.getElementById("endDate").value || "2025-08-24";
+    const search = document.getElementById("searchInput").value.toLowerCase();
+    const dangerOnly = document.getElementById("dangerOnly").checked;
+
+    const asteroidData = await getAsteroids(startDate, endDate);
     const tableBody = document.getElementById("asteroid-body");
-    const slice = allAsteroids.slice(currentIndex, currentIndex + itemsPerPage);
+    tableBody.innerHTML = "";
 
-    slice.forEach(a => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-            <td>${a.name}</td>
-            <td>${a.date}</td>
-            <td>${a.diaMin} - ${a.diaMax}</td>
-            <td>${a.vel}</td>
-            <td>${a.dist}</td>
-        `;
-        tableBody.appendChild(row);
-    });
+    let peligrosos = 0,
+        seguros = 0;
 
-    currentIndex += itemsPerPage;
+    for (let date in asteroidData) {
+        asteroidData[date].forEach(asteroid => {
+            const name = asteroid.name.toLowerCase();
 
-    // Ocultar el botón si ya no hay más
-    if (currentIndex >= allAsteroids.length) {
-        document.getElementById("loadMore").style.display = "none";
-    } else {
-        document.getElementById("loadMore").style.display = "block";
+            if (search && !name.includes(search)) return;
+            if (dangerOnly && !asteroid.is_potentially_hazardous_asteroid) return;
+
+            const row = document.createElement("tr");
+
+            // Nombre (clickeable)
+            const tdName = document.createElement("td");
+            tdName.classList.add("asteroid-name");
+
+            if (asteroid.is_potentially_hazardous_asteroid) {
+                tdName.classList.add("danger");
+                tdName.innerHTML = `<a href="#">${asteroid.name}</a>`;
+            } else {
+                tdName.classList.add("safe");
+                tdName.innerHTML = `<a href="#">${asteroid.name}</a>`;
+            }
+
+            // 🔹 Importante: manejar clic correctamente
+            tdName.querySelector("a").addEventListener("click", (e) => {
+                e.preventDefault(); // evita que el link “salte”
+                openModal(asteroid); // abre el modal con info
+            });
+
+
+
+            // Fecha
+            const tdFecha = document.createElement("td");
+            tdFecha.textContent = date;
+
+            // Diámetro estimado
+            const tdDiameter = document.createElement("td");
+            const diaMin = asteroid.estimated_diameter.meters.estimated_diameter_min.toFixed(0);
+            const diaMax = asteroid.estimated_diameter.meters.estimated_diameter_max.toFixed(0);
+            tdDiameter.textContent = `${diaMin} - ${diaMax}`;
+
+            // Velocidad
+            const tdVelocity = document.createElement("td");
+            const vel = asteroid.close_approach_data[0].relative_velocity.kilometers_per_hour;
+            tdVelocity.textContent = parseFloat(vel).toFixed(0);
+
+            // Distancia
+            const tdDistance = document.createElement("td");
+            const dist = asteroid.close_approach_data[0].miss_distance.kilometers;
+            tdDistance.textContent = parseFloat(dist).toFixed(0);
+
+            // Clase por peligrosidad
+            if (asteroid.is_potentially_hazardous_asteroid) {
+                row.classList.add("danger");
+                peligrosos++;
+            } else {
+                row.classList.add("safe");
+                seguros++;
+            }
+
+            row.appendChild(tdName);
+            row.appendChild(tdFecha);
+            row.appendChild(tdDiameter);
+            row.appendChild(tdVelocity);
+            row.appendChild(tdDistance);
+            tableBody.appendChild(row);
+        });
     }
+
+    renderAsteroidChart(peligrosos, seguros);
 }
 
-// Evento para el botón +
-document.getElementById("loadMore").addEventListener("click", renderAsteroids);
+// ------------------
+// 📊 Gráfico con Chart.js
+// ------------------
+function renderAsteroidChart(peligrosos, seguros) {
+    const ctx = document.getElementById('asteroidChart').getContext('2d');
+    if (window.asteroidChartInstance) {
+        window.asteroidChartInstance.destroy();
+    }
+    window.asteroidChartInstance = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Peligrosos ⚠️', 'Seguros ✅'],
+            datasets: [{
+                data: [peligrosos, seguros],
+                backgroundColor: ['#ff1744', '#00e676']
+            }]
+        }
+    });
+}
 
-// Inicializar
+
+// ------------------
+// 📌 Modal de detalles
+// ------------------
+function openModal(asteroid) {
+    document.getElementById("modalName").textContent = asteroid.name;
+    document.getElementById("modalMagnitude").textContent = asteroid.absolute_magnitude_h;
+    document.getElementById("modalOrbit").textContent = asteroid.orbital_data ? asteroid.orbital_data.orbit_id : "N/A";
+    document.getElementById("modalLink").href = asteroid.nasa_jpl_url;
+
+    document.getElementById("modal").style.display = "block";
+}
+
+document.getElementById("closeModal").onclick = () => {
+    document.getElementById("modal").style.display = "none";
+};
+
+updateAsteroids();
+
 getAsteroids();
 getAPOD();
