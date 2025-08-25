@@ -13,6 +13,7 @@ header {
     background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
     padding: 20px;
     box-shadow: 0 0 20px #00fff7;
+    margin: 10px;
 }
 
 h1,
@@ -53,6 +54,13 @@ h2 {
 
 #image:hover {
     transform: scale(1.05);
+}
+
+#loadMore {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    margin-left: 45%;
+    font-size: 20px;
 }
 
 table {
@@ -99,13 +107,14 @@ button {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(15, 25, 35, 0.95);
-    backdrop-filter: blur(8px);
+    background: rgba(10, 0, 0, 0.364);
+    backdrop-filter: blur(1px);
     display: flex;
     justify-content: center;
-    padding: 10px 0;
-    box-shadow: 0 0 20px #00fff7;
+    padding: 12px 0;
+    box-shadow: 0 0 20px #0000009a;
     z-index: 1000;
+    left: 0;
 }
 
 .navbar ul {
@@ -114,6 +123,7 @@ button {
     gap: 30px;
     margin: 0;
     padding: 0;
+    align-items: center;
 }
 
 .navbar ul li a {

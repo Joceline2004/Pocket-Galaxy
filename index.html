@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Explorador Espacial Futurista</title>
+    <title>Pocket Galaxy</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Montserrat&display=swap" rel="stylesheet">
 </head>
@@ -15,10 +15,11 @@
     <header>
         <nav class="navbar">
             <ul>
-                <li><a href="#apod-container">📷 APOD</a></li>
+                <li><a href="#apod-container">📷 Foto </a></li>
                 <li><a href="#asteroids">☄️ Asteroides</a></li>
                 <li><a href="#gallery">🛰️ Galería</a></li>
                 <li><a href="#missions">🚀 Misiones</a></li>
+                <li><a href="#missions">🌍 Imágenes de la Tierra </a></li>
             </ul>
         </nav>
         <h1>Pocket Galaxy</h1>
@@ -38,6 +39,15 @@
         <section id="asteroids">
             <h2>☄️ Asteroides Cercanos a la Tierra</h2>
             <table border="1" id="asteroid-table">
+                <!-- Controles -->
+                <div class="date-selector">
+                    <label>Inicio: <input type="date" id="startDate"></label>
+                    <label>Fin: <input type="date" id="endDate"></label>
+                    <button onclick="updateAsteroids()">Buscar</button>
+                    <input type="text" id="searchInput" placeholder="🔍 Buscar asteroide">
+                    <label><input type="checkbox" id="dangerOnly"> Solo peligrosos</label>
+                </div>
+
                 <thead>
                     <tr>
                         <th>Nombre</th>
@@ -47,11 +57,36 @@
                         <th>Distancia (km)</th>
                     </tr>
                 </thead>
-                <tbody id="asteroid-body">
-                    <!-- Datos dinámicos -->
-                </tbody>
+
+                <!-- Gráfico -->
+                <div class="chart-container">
+                    <canvas id="asteroidChart"></canvas>
+                </div>
+
+                <!-- Modal para detalles -->
+                <div id="modal" class="modal">
+                    <div class="modal-content">
+                        <span id="closeModal">&times;</span>
+                        <h3 id="modalName"></h3>
+                    </div>
+
+                    <tbody id="asteroid-body">
+                        <!-- Datos dinámicos -->
+
+                        <!-- Chart.js -->
+                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+                        <!-- Tu script principal -->
+                        <script src="script.js"></script>
+
+                    </tbody>
             </table>
+
+
+            <!-- Botón para mostrar más -->
+            <button id="loadMore">Ver más</button>
         </section>
+
 
         <!-- Sección 3: Galería Espacial (Marte / Rover) -->
         <section id="gallery">
@@ -64,6 +99,12 @@
         <!-- Sección 4: Simulación de Misiones -->
         <section id="missions">
             <h2>🚀 Misiones Espaciales</h2>
+            <div class="missions-grid" id="missions-grid">
+                <!-- Tarjetas de misiones dinámicas -->
+            </div>
+        </section>
+        <section id="missions">
+            <h2>🌍 Imagenes de la tierra</h2>
             <div class="missions-grid" id="missions-grid">
                 <!-- Tarjetas de misiones dinámicas -->
             </div>
