@@ -1,6 +1,7 @@
 const apiKey = "LOtNye1wqJIdZtnAqZX0fciNULCzO4xSbUFDV6Zj";
 const url = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}`;
 
+
 async function getAPOD() {
     try {
         const response = await fetch(url);
@@ -182,3 +183,31 @@ updateAsteroids();
 
 getAsteroids();
 getAPOD();
+
+document.getElementById("buscarBtn").addEventListener("click", () => {
+    const lat = document.getElementById("lat").value;
+    const lon = document.getElementById("lon").value;
+    const date = document.getElementById("date").value;
+
+    const urli = `https://api.nasa.gov/planetary/earth/imagery?lon=${lon}&lat=${lat}&date=${date}&dim=0.1&api_key=${apiKey}`;
+
+    fetch(urli)
+        .then(res => {
+            if (!res.ok) throw new Error("No se encontró imagen");
+            return res.blob(); // porque imagery devuelve directamente la imagen
+        })
+        .then(blob => {
+            const imgUrl = URL.createObjectURL(blob);
+            const contenedor = document.getElementById("resultado");
+            contenedor.innerHTML = "";
+            const img = document.createElement("img");
+            img.src = imgUrl;
+            img.style.maxWidth = "100%";
+            contenedor.appendChild(img);
+        })
+        .catch(err => {
+            document.getElementById("resultado").innerHTML = "<p>No se encontró imagen para esos datos.</p>";
+            console.error(err);
+        });
+
+});

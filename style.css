@@ -68,7 +68,6 @@
                     align-items: left;
                     margin-left: 50%;
                     text-align: left;
-                    margin-top: -35%;
                     margin-bottom: 5%;
                 }
                 
@@ -348,4 +347,18 @@
                 #asteroidChart {
                     width: 100% !important;
                     height: 100% !important;
+                }
+                
+                img {
+                    margin-top: 20px;
+                    max-width: 90%;
+                    border: 2px solid white;
+                    border-radius: 10px;
+                }
+                
+                input,
+                button {
+                    margin: 5px;
+                    padding: 8px;
+                    border-radius: 5px;
                 }

@@ -107,11 +107,18 @@
                 <!-- Tarjetas de misiones dinámicas -->
             </div>
         </section>
+
         <section id="missions">
             <h2>🌍 Imagenes de la tierra</h2>
-            <div class="missions-grid" id="missions-grid">
-                <!-- Tarjetas de misiones dinámicas -->
-            </div>
+
+            <!-- Formulario para elegir coordenadas y fecha -->
+            <label>Latitud: <input type="number" id="lat" step="0.0001" value="37.7749"></label>
+            <label>Longitud: <input type="number" id="lon" step="0.0001" value="-122.4194"></label>
+            <label>Fecha: <input type="date" id="date" value="2020-06-01"></label>
+            <button id="buscarBtn">Buscar Imagen</button>
+
+            <!-- Aquí se pondrá la imagen -->
+            <div id="resultado"></div>
         </section>
     </main>
 
