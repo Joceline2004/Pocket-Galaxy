@@ -111,17 +111,31 @@ async function updateAsteroids() {
     // Mostrar solo las primeras 5
     rows.slice(0, 5).forEach(r => tableBody.appendChild(r));
 
-    // Si hay más de 5, mostrar el botón
     const verMasBtn = document.getElementById("verMas");
+    const verMenosBtn = document.getElementById("verMenos");
+
+    // Si hay más de 5, mostrar el botón "Ver más"
     if (rows.length > 5) {
         verMasBtn.style.display = "block";
+        verMenosBtn.style.display = "none"; // al inicio oculto
+
         verMasBtn.onclick = () => {
             rows.slice(5).forEach(r => tableBody.appendChild(r)); // mostrar las demás
-            verMasBtn.style.display = "none"; // ocultar botón
+            verMasBtn.style.display = "none"; // ocultar "Ver más"
+            verMenosBtn.style.display = "block"; // mostrar "Ver menos"
+        };
+
+        verMenosBtn.onclick = () => {
+            tableBody.innerHTML = ""; // limpiar tabla
+            rows.slice(0, 5).forEach(r => tableBody.appendChild(r)); // volver a mostrar 5
+            verMasBtn.style.display = "block"; // volver a mostrar "Ver más"
+            verMenosBtn.style.display = "none"; // ocultar "Ver menos"
         };
     } else {
         verMasBtn.style.display = "none";
+        verMenosBtn.style.display = "none";
     }
+
 
     renderAsteroidChart(peligrosos, seguros);
 }

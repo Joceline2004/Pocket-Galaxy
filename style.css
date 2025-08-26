@@ -97,7 +97,8 @@
                     transform: scale(1.05);
                 }
                 
-                #verMas {
+                #verMas,
+                #verMenos {
                     margin-top: 30px;
                     margin-bottom: 20px;
                     margin-left: 45%;
