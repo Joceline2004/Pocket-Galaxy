@@ -87,6 +87,7 @@
                     transform: scale(1.05);
                 }
                 
+<<<<<<< HEAD
                 #video {
                     width: 50%;
                     height: 300px;
@@ -109,6 +110,10 @@
                 }
                 
                 #verMas {
+=======
+                #verMas,
+                #verMenos {
+>>>>>>> 59dcf7ec83c711c608ccc1c2bed7676507640662
                     margin-top: 30px;
                     font-size: 18px;
                 }
