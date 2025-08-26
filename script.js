@@ -255,3 +255,11 @@ document.getElementById("buscarBtn").addEventListener("click", () => {
         });
 
 });
+// Inicializar
+updateAsteroids();
+getAPOD();
+
+// Inicializar al cargar la página
+document.addEventListener("DOMContentLoaded", () => {
+    getAPOD(); // foto del día de hoy
+});
