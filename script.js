@@ -22,6 +22,7 @@ async function getAPOD() {
     }
 }
 
+
 // ------------------
 // 🚀 Explorador de Asteroides
 // ------------------
@@ -31,7 +32,6 @@ async function getAsteroids(startDate, endDate) {
     const data = await response.json();
     return data.near_earth_objects;
 }
-
 // Renderizar asteroides en tabla
 async function updateAsteroids() {
     const startDate = document.getElementById("startDate").value || "2025-08-20";
@@ -45,6 +45,8 @@ async function updateAsteroids() {
 
     let peligrosos = 0,
         seguros = 0;
+
+    let rows = []; // aquí guardamos todas las filas
 
     for (let date in asteroidData) {
         asteroidData[date].forEach(asteroid => {
@@ -67,35 +69,27 @@ async function updateAsteroids() {
                 tdName.innerHTML = `<a href="#">${asteroid.name}</a>`;
             }
 
-            // 🔹 Importante: manejar clic correctamente
             tdName.querySelector("a").addEventListener("click", (e) => {
-                e.preventDefault(); // evita que el link “salte”
-                openModal(asteroid); // abre el modal con info
+                e.preventDefault();
+                openModal(asteroid);
             });
 
-
-
-            // Fecha
             const tdFecha = document.createElement("td");
             tdFecha.textContent = date;
 
-            // Diámetro estimado
             const tdDiameter = document.createElement("td");
             const diaMin = asteroid.estimated_diameter.meters.estimated_diameter_min.toFixed(0);
             const diaMax = asteroid.estimated_diameter.meters.estimated_diameter_max.toFixed(0);
             tdDiameter.textContent = `${diaMin} - ${diaMax}`;
 
-            // Velocidad
             const tdVelocity = document.createElement("td");
             const vel = asteroid.close_approach_data[0].relative_velocity.kilometers_per_hour;
             tdVelocity.textContent = parseFloat(vel).toFixed(0);
 
-            // Distancia
             const tdDistance = document.createElement("td");
             const dist = asteroid.close_approach_data[0].miss_distance.kilometers;
             tdDistance.textContent = parseFloat(dist).toFixed(0);
 
-            // Clase por peligrosidad
             if (asteroid.is_potentially_hazardous_asteroid) {
                 row.classList.add("danger");
                 peligrosos++;
@@ -109,12 +103,29 @@ async function updateAsteroids() {
             row.appendChild(tdDiameter);
             row.appendChild(tdVelocity);
             row.appendChild(tdDistance);
-            tableBody.appendChild(row);
+
+            rows.push(row); // guardamos la fila en el arreglo
         });
+    }
+
+    // Mostrar solo las primeras 5
+    rows.slice(0, 5).forEach(r => tableBody.appendChild(r));
+
+    // Si hay más de 5, mostrar el botón
+    const verMasBtn = document.getElementById("verMas");
+    if (rows.length > 5) {
+        verMasBtn.style.display = "block";
+        verMasBtn.onclick = () => {
+            rows.slice(5).forEach(r => tableBody.appendChild(r)); // mostrar las demás
+            verMasBtn.style.display = "none"; // ocultar botón
+        };
+    } else {
+        verMasBtn.style.display = "none";
     }
 
     renderAsteroidChart(peligrosos, seguros);
 }
+
 
 // ------------------
 // 📊 Gráfico con Chart.js
