@@ -29,13 +29,30 @@
         <!-- Sección 1: Foto del día (APOD) -->
         <section id="apod-container">
             <h2>📷 Foto del Día</h2>
-            <img id="image" alt="Foto del día de la NASA">
-            <div id="img-container">
 
-                <p id="title"></p>
-                <p id="description"></p>
+            <!-- Contenedor dinámico -->
+            <div id="media-container">
+                <img id="image" alt="Foto del día de la NASA" style="display:none;">
+                <iframe id="video" style="display:none;" frameborder="0" allowfullscreen></iframe>
+                <!-- Contenedor para videos .mp4 -->
+                <div id="video-container"></div>
             </div>
-            <p id="d"><b>Fecha:</b> <span id="date"></span></p>
+
+            <!-- Info -->
+            <div id="img-container">
+                <p id="title"></p>
+                <div id="description"></div>
+
+                <!-- Selector de fecha -->
+                <div class="date-selector">
+                    <label>Elegir fecha:
+                        <input type="date" id="apodDate">
+                    </label>
+                    <button onclick="updateAPOD()">🔄 Buscar</button>
+                </div>
+
+                <p id="d"><b>Fecha:</b> <span id="date"></span></p>
+            </div>
         </section>
 
         <!-- Sección 2: Explorador de Asteroides -->
@@ -86,9 +103,7 @@
             </table>
 
             <button id="verMas" style="display:none;">Ver más</button>
-
         </section>
-
 
         <!-- Sección 3: Galería Espacial (Marte / Rover) -->
         <section id="gallery">
