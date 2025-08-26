@@ -1,160 +1,350 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Montserrat&display=swap');
-body {
-    font-family: 'Montserrat', sans-serif;
-    margin: 0;
-    padding-top: 70px;
-    /* espacio para navbar fijo */
-    background-color: #0a0f1f;
-    color: #c5c6c7;
-    text-align: center;
-}
-
-header {
-    background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
-    padding: 20px;
-    box-shadow: 0 0 20px #00fff7;
-    margin: 10px;
-}
-
-h1,
-h2 {
-    font-family: 'Orbitron', sans-serif;
-    color: #00fff7;
-}
-
-@keyframes glowTitle {
-    0%,
-    100% {
-        text-shadow: 0 0 5px #00fff7, 0 0 10px #00fff7;
-    }
-    50% {
-        text-shadow: 0 0 20px #00fff7, 0 0 30px #00fff7;
-    }
-}
-
-#apod-container,
-#asteroids,
-#gallery,
-#missions {
-    background: rgba(15, 25, 35, 0.9);
-    margin: 20px auto;
-    padding: 20px;
-    border-radius: 15px;
-    max-width: 1000px;
-    box-shadow: 0 0 20px #1f4068;
-}
-
-#image {
-    max-width: 90%;
-    border-radius: 12px;
-    margin: 20px 0;
-    box-shadow: 0 0 20px #00fff7;
-    transition: transform 0.3s ease;
-}
-
-#image:hover {
-    transform: scale(1.05);
-}
-
-#loadMore {
-    margin-top: 30px;
-    margin-bottom: 20px;
-    margin-left: 45%;
-    font-size: 20px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-}
-
-th,
-td {
-    padding: 12px;
-    border: 1px solid #00fff7;
-    color: #eaeaea;
-}
-
-tr:hover {
-    background: rgba(0, 255, 247, 0.1);
-}
-
-button {
-    background: transparent;
-    color: #00fff7;
-    border: 2px solid #00fff7;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-family: 'Orbitron', sans-serif;
-    transition: 0.3s;
-    box-shadow: 0 0 10px #00fff7;
-    animation: glowButton 2s infinite;
-}
-
-@keyframes glowButton {
-    0%,
-    100% {
-        box-shadow: 0 0 10px #00fff7;
-    }
-    50% {
-        box-shadow: 0 0 25px #00fff7;
-    }
-}
-
-.navbar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background: rgba(10, 0, 0, 0.364);
-    backdrop-filter: blur(1px);
-    display: flex;
-    justify-content: center;
-    padding: 12px 0;
-    box-shadow: 0 0 20px #0000009a;
-    z-index: 1000;
-    left: 0;
-}
-
-.navbar ul {
-    list-style: none;
-    display: flex;
-    gap: 30px;
-    margin: 0;
-    padding: 0;
-    align-items: center;
-}
-
-.navbar ul li a {
-    color: #00fff7;
-    text-decoration: none;
-    font-size: 18px;
-    padding: 8px 15px;
-    border-radius: 10px;
-    transition: 0.3s;
-    text-shadow: 0 0 8px #00fff7;
-    animation: glowButton 2.5s infinite;
-}
-
-.navbar ul li a:hover {
-    animation: none;
-    box-shadow: 0 0 30px #00fff7, 0 0 50px #00fff7 inset;
-    color: #0a0f1f;
-    background: #00fff7;
-}
-
-footer {
-    margin-top: 30px;
-    padding: 15px;
-    font-size: 14px;
-    background: #111;
-    color: #777;
-}
-
-.gallery-grid,
-.missions-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 15px;
-}
+                @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Montserrat&display=swap');
+                body {
+                    font-family: 'Montserrat', sans-serif;
+                    margin: 0;
+                    padding-top: 70px;
+                    /* espacio para navbar fijo */
+                    background-image: url('fondo.jpg');
+                    color: #c5c6c7;
+                    text-align: center;
+                    object-fit: contain;
+                    background-size: cover;
+                    background-attachment: fixed;
+                }
+                
+                header {
+                    background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
+                    padding: 20px;
+                    box-shadow: 0 0 20px #00fff7;
+                    margin: 10px;
+                }
+                
+                h1,
+                h2 {
+                    font-family: 'Orbitron', sans-serif;
+                    color: #00fff7;
+                    font-weight: 50px;
+                }
+                
+                @keyframes glowTitle {
+                    0%,
+                    100% {
+                        text-shadow: 0 0 5px #00fff7, 0 0 10px #00fff7;
+                    }
+                    50% {
+                        text-shadow: 0 0 20px #00fff7, 0 0 30px #00fff7;
+                    }
+                }
+                
+                #apod-container,
+                #asteroids,
+                #gallery,
+                #missions {
+                    background: rgba(15, 25, 35, 0.9);
+                    margin: 20px auto;
+                    padding: 20px;
+                    border-radius: 15px;
+                    max-width: 1000px;
+                    box-shadow: 0 0 20px #1f4068;
+                }
+                
+                #d {
+                    font-size: 24px;
+                    font-weight: bold;
+                    color: #b9bcbc;
+                    margin-left: 50%;
+                }
+                
+                #title {
+                    font-size: 24px;
+                    font-weight: bold;
+                    margin: 10px 0;
+                }
+                
+                #img-container {
+                    position: relative;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: left;
+                    margin-left: 50%;
+                    text-align: left;
+                    margin-top: -35%;
+                    margin-bottom: 5%;
+                }
+                
+                #image {
+                    max-width: 50%;
+                    max-height: 300px;
+                    /* ocupa como máximo el ancho del contenedor */
+                    height: auto;
+                    /* mantiene la proporción original */
+                    /* límite de alto para que no se desborde */
+                    border-radius: 12px;
+                    box-shadow: 0 0 20px #00fff7;
+                    transition: transform 0.3s ease;
+                    object-fit: contain;
+                    position: relative;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: right;
+                    margin-right: 40%;
+                    margin-left: 10%;
+                    margin-top: 10%;
+                    /* asegura que no se deforme */
+                }
+                
+                #image:hover {
+                    transform: scale(1.05);
+                }
+                
+                #loadMore {
+                    margin-top: 30px;
+                    margin-bottom: 20px;
+                    margin-left: 45%;
+                    font-size: 20px;
+                }
+                
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 15px;
+                }
+                
+                th,
+                td {
+                    padding: 12px;
+                    border: 1px solid #00fff7;
+                    color: #eaeaea;
+                }
+                
+                tr:hover {
+                    background: rgba(0, 255, 247, 0.1);
+                }
+                
+                button {
+                    background: transparent;
+                    color: #00fff7;
+                    border: 2px solid #00fff7;
+                    padding: 10px 20px;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    font-family: 'Orbitron', sans-serif;
+                    transition: 0.3s;
+                    box-shadow: 0 0 10px #00fff7;
+                    animation: glowButton 2s infinite;
+                }
+                
+                @keyframes glowButton {
+                    0%,
+                    100% {
+                        box-shadow: 0 0 10px #00fff7;
+                    }
+                    50% {
+                        box-shadow: 0 0 25px #00fff7;
+                    }
+                }
+                
+                .navbar {
+                    position: fixed;
+                    top: 0;
+                    width: 100%;
+                    background: rgba(10, 0, 0, 0.364);
+                    backdrop-filter: blur(1px);
+                    display: flex;
+                    justify-content: center;
+                    padding: 12px 0;
+                    box-shadow: 0 0 20px #0000009a;
+                    z-index: 1000;
+                    left: 0;
+                }
+                
+                .navbar ul {
+                    list-style: none;
+                    display: flex;
+                    gap: 30px;
+                    margin: 0;
+                    padding: 0;
+                    align-items: center;
+                }
+                
+                .navbar ul li a {
+                    color: #00fff7;
+                    text-decoration: none;
+                    font-size: 18px;
+                    padding: 8px 15px;
+                    border-radius: 10px;
+                    transition: 0.3s;
+                    text-shadow: 0 0 8px #00fff7;
+                    animation: glowButton 2.5s infinite;
+                }
+                
+                .navbar ul li a:hover {
+                    animation: none;
+                    box-shadow: 0 0 30px #00fff7, 0 0 50px #00fff7 inset;
+                    color: #0a0f1f;
+                    background: #00fff7;
+                }
+                
+                footer {
+                    margin-top: 30px;
+                    padding: 15px;
+                    font-size: 14px;
+                    background: #111;
+                    color: #777;
+                }
+                
+                .gallery-grid,
+                .missions-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                    gap: 15px;
+                }
+                
+                .date-selector {
+                    margin: 15px 0;
+                    display: flex;
+                    gap: 10px;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                }
+                
+                #searchInput {
+                    padding: 5px;
+                    border-radius: 6px;
+                    border: 1px solid #00fff7;
+                    background: #0a0f1f;
+                    color: #00fff7;
+                }
+                
+                .danger {
+                    background: rgba(255, 23, 68, 0.1);
+                    color: #ff1744;
+                    font-weight: bold;
+                    text-shadow: 0 0 8px #ff1744;
+                }
+                
+                .safe {
+                    background: rgba(0, 230, 118, 0.05);
+                    color: #00e676;
+                    font-weight: bold;
+                    text-shadow: 0 0 8px #00e676;
+                }
+                /* Modal */
+                
+                .modal {
+                    display: none;
+                    position: fixed;
+                    z-index: 2000;
+                    padding-top: 100px;
+                    left: 0;
+                    top: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.8);
+                }
+                
+                .modal-content {
+                    background: #112240;
+                    margin: auto;
+                    padding: 20px;
+                    border: 2px solid #00fff7;
+                    width: 400px;
+                    border-radius: 12px;
+                    box-shadow: 0 0 20px #00fff7;
+                    color: white;
+                }
+                
+                #closeModal {
+                    float: right;
+                    font-size: 24px;
+                    cursor: pointer;
+                    color: #00fff7;
+                }
+                /* 🔹 Estilo para nombres de asteroides */
+                
+                .asteroid-name a {
+                    font-weight: bold;
+                    font-size: 17px;
+                    text-decoration: none;
+                    transition: 0.3s;
+                    display: inline-block;
+                }
+                /* Seguro (verde brillante pero legible) */
+                
+                .asteroid-name.safe a {
+                    color: #00e676;
+                    text-shadow: 0 0 6px #006644;
+                }
+                
+                .asteroid-name.safe a:hover {
+                    color: #33ff99;
+                    text-shadow: 0 0 12px #00ff99;
+                    transform: scale(1.05);
+                }
+                /* Peligroso (rojo brillante pero legible) */
+                
+                .asteroid-name.danger a {
+                    color: #ff1744;
+                    text-shadow: 0 0 6px #660000;
+                }
+                
+                .asteroid-name.danger a:hover {
+                    color: #ff4444;
+                    text-shadow: 0 0 12px #ff3333;
+                    transform: scale(1.05);
+                }
+                /* 🔹 Contenedor general de fecha */
+                
+                .date-selector label {
+                    font-family: 'Orbitron', sans-serif;
+                    color: #00fff7;
+                    margin: 5px;
+                    display: inline-block;
+                }
+                /* 🔹 Input futurista para fechas */
+                
+                .date-selector input[type="date"] {
+                    background: rgba(10, 15, 31, 0.85);
+                    border: 2px solid #00fff7;
+                    border-radius: 30px;
+                    padding: 8px 15px;
+                    font-size: 15px;
+                    color: #00fff7;
+                    outline: none;
+                    box-shadow: 0 0 10px #00fff7;
+                    transition: all 0.3s ease-in-out;
+                    cursor: pointer;
+                }
+                /* Glow cuando se enfoca */
+                
+                .date-selector input[type="date"]:focus {
+                    border-color: #ffea00;
+                    box-shadow: 0 0 15px #ffea00, 0 0 30px #00fff7;
+                    background: rgba(20, 25, 40, 0.95);
+                    color: #ffea00;
+                }
+                /* 🔹 Botón de calendario */
+                
+                .date-selector input[type="date"]::-webkit-calendar-picker-indicator {
+                    filter: invert(85%) sepia(100%) saturate(500%) hue-rotate(180deg);
+                    cursor: pointer;
+                    transition: 0.3s;
+                }
+                
+                .date-selector input[type="date"]:hover::-webkit-calendar-picker-indicator {
+                    filter: invert(70%) sepia(100%) saturate(500%) hue-rotate(50deg);
+                }
+                /* 🔹 Contenedor del gráfico reducido */
+                
+                .chart-container {
+                    width: 300px;
+                    height: 300px;
+                    margin: 20px auto;
+                    /* centrado */
+                }
+                /* 🔹 Canvas del gráfico */
+                
+                #asteroidChart {
+                    width: 100% !important;
+                    height: 100% !important;
+                }
