@@ -2,8 +2,14 @@ const apiKey = "LOtNye1wqJIdZtnAqZX0fciNULCzO4xSbUFDV6Zj";
 const url = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}`;
 
 
-async function getAPOD() {
+// ------------------
+// 🌌 APOD (Foto o Video del Día)
+// ------------------
+async function getAPOD(date = "") {
     try {
+        let url = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}`;
+        if (date) url += `&date=${date}`;
+
         const response = await fetch(url);
         const data = await response.json();
 
@@ -11,18 +17,56 @@ async function getAPOD() {
         document.getElementById("description").textContent = data.explanation;
         document.getElementById("date").textContent = data.date;
 
+        const image = document.getElementById("image");
+        const video = document.getElementById("video");
+        const videoContainer = document.getElementById("video-container"); // asegúrate de tener este <div> en tu HTML
+
+        // Resetear estado
+        image.style.display = "none";
+        video.style.display = "none";
+        videoContainer.innerHTML = "";
+
         if (data.media_type === "image") {
-            document.getElementById("image").src = data.url;
-        } else {
-            document.getElementById("image").style.display = "none";
-            document.getElementById("description").innerHTML =
-                `Hoy es un video: <a href="${data.url}" target="_blank">Ver aquí</a>`;
+            // Mostrar imagen
+            image.src = data.url;
+            image.style.display = "block";
+
+        } else if (data.media_type === "video") {
+            if (data.url.includes("youtube.com") || data.url.includes("youtu.be")) {
+                // Video de YouTube (embed)
+                let videoId;
+                if (data.url.includes("watch?v=")) {
+                    videoId = new URL(data.url).searchParams.get("v");
+                } else {
+                    videoId = data.url.split("/").pop();
+                }
+                video.src = `https://www.youtube.com/embed/${videoId}`;
+                video.style.display = "block";
+
+            } else if (data.url.endsWith(".mp4")) {
+                // Video .mp4 directo (usar contenedor)
+                videoContainer.innerHTML = `
+                    <video controls autoplay>
+                        <source src="${data.url}" type="video/mp4">
+                        Tu navegador no soporta videos.
+                    </video>
+                `;
+
+            } else {
+                // Caso raro (página HTML de APOD)
+                document.getElementById("description").innerHTML +=
+                    `<br><a href="${data.url}" target="_blank">🎬 Ver video en la página oficial</a>`;
+            }
         }
     } catch (error) {
         console.error("Error al obtener la Foto del Día:", error);
     }
 }
 
+function updateAPOD() {
+    const selectedDate = document.getElementById("apodDate").value;
+    if (selectedDate) getAPOD(selectedDate);
+}
 
 // ------------------
 // 🚀 Explorador de Asteroides
@@ -33,6 +77,7 @@ async function getAsteroids(startDate, endDate) {
     const data = await response.json();
     return data.near_earth_objects;
 }
+
 // Renderizar asteroides en tabla
 async function updateAsteroids() {
     const startDate = document.getElementById("startDate").value || "2025-08-20";
@@ -179,9 +224,8 @@ document.getElementById("closeModal").onclick = () => {
     document.getElementById("modal").style.display = "none";
 };
 
+// Inicializar
 updateAsteroids();
-
-getAsteroids();
 getAPOD();
 
 document.getElementById("buscarBtn").addEventListener("click", () => {
