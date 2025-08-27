@@ -208,6 +208,98 @@ function renderAsteroidChart(peligrosos, seguros) {
 }
 
 
+
+// =============================
+// Galería Espacial (Mars Rover) + Misiones Espaciales
+// =============================
+
+async function loadMarsGallery(rover = "curiosity", date = "2020-07-01") {
+  const url = `https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/photos?earth_date=${date}&api_key=${apiKey}`;
+  
+  const res = await fetch(url);
+  const data = await res.json();
+
+  const galleryGrid = document.getElementById("gallery-grid");
+  galleryGrid.innerHTML = "";
+
+  // Crear tarjetas de fotos
+  data.photos.slice(0, 12).forEach(photo => {
+    const card = document.createElement("div");
+    card.className = "gallery-card";
+    card.innerHTML = `
+      <img src="${photo.img_src}" alt="Foto Marte">
+      <p><b>Rover:</b> ${photo.rover.name}</p>
+      <p><b>Cámara:</b> ${photo.camera.full_name}</p>
+      <p><b>Fecha:</b> ${photo.earth_date}</p>
+    `;
+    // Al hacer click en la imagen → abrir modal
+    card.querySelector("img").addEventListener("click", () => openModal(photo));
+    galleryGrid.appendChild(card);
+  });
+}
+
+function openModal(photo) {
+  const modal = document.createElement("div");
+  modal.className = "modal";
+  modal.innerHTML = `
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <img src="${photo.img_src}" alt="Foto Marte">
+      <h3>${photo.rover.name} - ${photo.camera.full_name}</h3>
+      <p><b>Fecha:</b> ${photo.earth_date}</p>
+      <p><b>Estado Rover:</b> ${photo.rover.status}</p>
+      <p><b>Lanzamiento:</b> ${photo.rover.launch_date}</p>
+      <p><b>Aterrizaje:</b> ${photo.rover.landing_date}</p>
+    </div>
+  `;
+  document.body.appendChild(modal);
+   modal.querySelector(".close").onclick = () => modal.remove();
+  modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+}
+
+const missions = [
+  {
+    name: "Apollo 11",
+    year: 1969,
+    objective: "Primer alunizaje tripulado",
+    status: "Completada"
+  },
+  {
+    name: "Voyager 1",
+    year: 1977,
+    objective: "Exploración del sistema solar exterior",
+    status: "Activa"
+  },
+  {
+    name: "Perseverance",
+    year: 2020,
+    objective: "Exploración de Marte y búsqueda de vida microbiana",
+    status: "Activa"
+  }
+];
+
+function loadMissions() {
+  const container = document.getElementById("missions-grid");
+  container.innerHTML = "";
+
+  missions.forEach(m => {
+    const card = document.createElement("div");
+    card.className = "mission-card";
+    card.innerHTML = `
+      <h3>${m.name}</h3>
+      <p><b>Año:</b> ${m.year}</p>
+      <p><b>Objetivo:</b> ${m.objective}</p>
+      <p><b>Estado:</b> <span class="${m.status.toLowerCase()}">${m.status}</span></p>
+    `;
+    container.appendChild(card);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadMarsGallery();   // carga galería por defecto
+  loadMissions();      // carga misiones
+});
+
 // ------------------
 // 📌 Modal de detalles
 // ------------------
